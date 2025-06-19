@@ -18,7 +18,7 @@ def run():
 
         print("🔐 Creating superuser if not exists...")
         User = get_user_model()
-        if not User.objects.filter(username='admin12').exists():
+        if not User.objects.filter(username='admin11').exists():
             User.objects.create_superuser(
                 username='admin@gmail.com',
                 email='admin@gmail.com',
@@ -27,6 +27,9 @@ def run():
             print("✅ Superuser created.")
         else:
             print("ℹ️ Superuser already exists.")
+	
+	print("⚙️ migrations again...")
+        call_command('migrate')
 
     except Exception as e:
         print(f"❌ Error: {str(e)}")
