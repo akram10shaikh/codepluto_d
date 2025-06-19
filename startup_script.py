@@ -28,7 +28,7 @@ def run():
         else:
             print("ℹ️ Superuser already exists.")
 	
-	print("⚙️ migrations again...")
+	    print("⚙️ migrations again...")
         call_command('migrate')
 
     except Exception as e:
