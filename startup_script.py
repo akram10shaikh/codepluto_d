@@ -16,17 +16,19 @@ def run():
         print("📦 Collecting static files...")
         call_command('collectstatic', '--noinput')
 
-        print("🔐 Creating superuser if not exists...")
+        print("🔐 Creating or resetting superuser...")
         User = get_user_model()
-        if not User.objects.filter(username='codepluto').exists():
-            User.objects.create_superuser(
-                username='codepluto@gmail.com',
-                email='codepluto@gmail.com',
-                password='admin'
-            )
-            print("✅ Superuser created.")
-        else:
-            print("ℹ️ Superuser already exists.")
+        user, created = User.objects.get_or_create(
+            username='code@gmail.com',  # <-- match username here
+            defaults={
+                'email': 'code@gmail.com',
+                'is_superuser': True,
+                'is_staff': True
+            }
+        )
+        user.set_password('admin')
+        user.save()
+        print("✅ Superuser created or password reset.")
 
         print("⚙️ migrations again...")
         call_command('migrate')
