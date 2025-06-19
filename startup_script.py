@@ -27,12 +27,12 @@ def run():
             print("✅ Superuser created.")
         else:
             print("ℹ️ Superuser already exists.")
-	
-	    print("⚙️ migrations again...")
+
+        print("⚙️ migrations again...")
         call_command('migrate')
 
     except Exception as e:
-        print(f"❌ Error: {str(e)}")
+    print(f"❌ Error: {str(e)}")
 
 if __name__ == '__main__':
     run()
