@@ -1,0 +1,676 @@
+{% extends "main_base.html" %}
+{% block 'title' %} Code Pluto{% endblock %}
+{% block 'content'%}
+{% load static %}
+
+<style>
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 10px;
+            test-align:center;
+            flex-wrap:wrap;
+        }
+        .text-content {
+            max-width: 400px;
+
+        }
+        h1 {
+            font-size: 32px;
+            font-weight: bold;
+        }
+        .highlight {
+            color: #3B82F6;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+        }
+        .cta-button {
+            background-color: #3B82F6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .image-content {
+            position: relative;
+        }
+        .image-content img {
+            width: 350px;
+        }
+        .labels {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .label {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .container {
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .heading {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .timeline {
+            display:flex;
+            flex-direction: column;
+            padding-left: 40px;
+        }
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 15px;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: #007bff;
+            border-left: 2px dotted #007bff;
+        }
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .timeline-number {
+            font-size: 30px;
+            font-weight: bold;
+            color: #007bff;
+            margin-right: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        .timeline-card {
+            background: #e9f2ff;
+            padding: 15px;
+            border-radius: 10px;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+        .icon {
+            font-size: 30px;
+            color: #007bff;
+            margin-right: 15px;
+        }
+        .text {
+            flex-grow: 1;
+        }
+        .text h5 {
+            font-weight: bold;
+            margin: 0;
+        }
+        .text p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+
+        .slider {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .card-container {
+            display: flex;
+            gap: 20px;
+            transition: transform 0.5s ease-in-out;
+
+        }
+
+        .card {
+            min-width: 300px;
+            max-width: 250px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            padding:10px;
+            margin:10px;
+            display:flex;
+            flex-direction:column;
+            justify-content:space-between;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .course-img img {
+            display: block;
+            margin: auto;
+        }
+
+        .card-body {
+            display:flex;
+            flex-direction:column;
+            justify-content:space-between;
+            text-align: center;
+        }
+
+        .subscribe-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .subscribe-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Navigation Buttons */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            font-size: 20px;
+            border-radius: 50%;
+        }
+
+        .prev-btn {
+            left: 10px;
+        }
+
+        .next-btn {
+            right: 10px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card-container {
+                flex-wrap: nowrap;
+            }
+
+            .card {
+                min-width: 90%;
+            }
+        }
+
+        .testimonial-section {
+            padding: 10px 0;
+            text-align: center;
+
+        }
+        .testimonial-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .testimonial-card {
+            background: #eef3ff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 350px;
+            text-align: left;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .testimonial-card img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .quote {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 80px;
+            color: #2962ff;
+        }
+        .customer-name {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .customer-role {
+            color: gray;
+            font-size: 14px;
+        }
+        .testimonial-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            overflow: hidden; /* Prevents extra cards from being shown */
+            max-width: 750px; /* Adjust this based on your design */
+            margin: auto;
+        }
+
+        /* Show only 2 cards at a time */
+        .testimonial-card {
+            flex: 1 1 calc(50% - 20px); /* Ensures 2 cards per row */
+            max-width: 350px;
+        }
+
+        /* For mobile: Show only 1 card per row */
+        @media (max-width: 768px) {
+            .testimonial-container {
+                max-width: 400px;
+            }
+            .testimonial-card {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+        }
+
+        .button_user {
+            padding:10px;
+            margin:10px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container1 {
+
+            background-color: #F5F9FF;
+            padding: 20px;
+            margin:30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .form-control {
+            border-radius: 8px;
+        }
+        .form-label {
+            font-size: 15px;
+
+        }
+
+        .btn-primary {
+            width: 100%;
+            border-radius: 8px;
+            font-weight: bold;
+            background-color: #2c6bed;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #1f5ad9;
+        }
+        .icon {
+            color:black;
+            margin-right: 8px;
+        }
+        .card-book {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            background:white;
+            padding:30px;
+        }
+
+
+    </style>
+</head>
+<body>
+
+     <section class="hero">
+        <div class="text-content">
+            <h1>TRANSFORM WITH <br>LEARNING <span class="highlight">CODING</span></h1>
+            <p>Master coding with interactive lessons and real projects.</p>
+            <button class="cta-button" onclick="scrollToDiv()">Book free demo</button>
+        </div>
+        <div class="image-content">
+            <img src="{% static 'images/homepage/main.png' %}" alt="Coding Student">
+
+        </div>
+    </section>
+    <div class="container">
+        <h4 style="font-weight:bold;" >Why choose Code Pluto?</h4>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-number">1</div>
+                <div class="timeline-card">
+                    <img src="{% static 'images/homepage/knowledge.jpg' %}">
+                    <div class="text">
+                        <h5>Knowledge</h5>
+                        <p>Build a strong foundation in coding principles and concepts to aid learning, making it fun.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-number">2</div>
+                <div class="timeline-card">
+                    <i><img src="{% static 'images/homepage/technology.jpg' %}"></i>
+                    <div class="text">
+                        <h5>Technology</h5>
+                        <p>Expert insights and smart tools make learning tech simple and effective as we explore more.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-number">3</div>
+                <div class="timeline-card">
+                    <i><img src="{% static 'images/homepage/creativity.jpg' %}"></i>
+                    <div class="text">
+                        <h5>Creativity</h5>
+                        <p>Explore, experiment, and bring your ideas to life with coding by letting imagination free.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-number">4</div>
+                <div class="timeline-card">
+                    <i><img src="{% static 'images/homepage/core.jpg' %}"></i>
+                    <div class="text">
+                        <h5>Core Skills</h5>
+                        <p>Hone essential techniques to excel in coding by working on real-life projects with us.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container course-section">
+        <h4 style="font-weight:bold;padding-left:5px;">Courses we provide</h4>
+        <div class="slider">
+            <button class="nav-btn prev-btn">&#10094;</button>
+            <div class="card-container">
+            {% for data in data_file %}
+            <div class="card p-3">
+                <div class="course-img">
+                    <img src="media/{{ data.image }}" width="80" alt="Python">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ data.course_name }}</h5>
+                    <p class="card-text">{{ data.description }}</p>
+                    {% comment %} <h6 class="text-primary">Rs {{ data.price }}.00</h6> {% endcomment %}
+                    <a href="#" class="subscribe-btn" onclick="scrollToDiv()">Subscribe</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+            <button class="nav-btn next-btn">&#10095;</button>
+
+    </div>
+    </div>
+
+
+    <section class="testimonial-section">
+        <h3 style="text-align: left;padding-left: 40px;"><strong>What our customers say</strong></h3>
+        <div class="testimonial-section">
+            <div class="testimonial-container" id="testimonialSlider">
+                {% for review in user_feedback %}
+                <div class="testimonial-card">
+                    <img src="media/{{ review.user.image }}" alt="{{ review.user.username }}">
+                    <p>{{ review.text }}</p>
+                    <span class="quote">&#8221;</span>
+                    <p class="customer-name">{{ review.user.username }}</p>
+                    <p class="customer-role">{{ review.user.role }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button class="button_user" id="prevs">←</button>
+        <button class="button_user" id="nexts">→</button>
+</section>
+
+
+    <div class="container1" id='book'>
+        <div class="title">
+            Book a Free Demo Today
+        </div>
+        <form action="{% url 'bookdemoclass' %}" method="POST">
+            {% csrf_token %}
+
+            <div class='card-book'>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><img src="{% static 'images/homepage/user.png' %}" width="25px" height="25spx" style="margin-right:10px;">Full Name</label>
+                    <div class="input-group">
+                        <input required type="text" class="form-control" name='name' placeholder="Enter your Full Name">
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><img src="{% static 'images/homepage/email.png' %}" width="25px" height="25px" style="margin-right:10px;">Email</label>
+                    <div class="input-group">
+                        <input required type="email" class="form-control" name='email' placeholder="Enter your Email">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><img src="{% static 'images/homepage/country.png' %}" width="25px" height="25spx" style="margin-right:10px;"> Country</label>
+                    <div class="input-group">
+                        <select name="country" class="form-control" id="country-select" onchange="updatePhoneCode()">
+                            {% for code, info in countries.items %}
+                                <option value="{{ info.0 }}" data-std="{{ info.1 }}" data-flag="{{ info.2|default:'' }}" {% if code == selected_code %}selected{% endif %}>
+                                    {{ info.0 }} ({{ info.1 }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><img src="{% static 'images/homepage/phone.jpg' %}" width="25px" height="25spx" style="margin-right:10px;"> Mobile Number</label>
+                    <div class="input-group">
+                        <span class="input-group-text" id="country-code-display">+91</span>
+                        <input required type="tel" class="form-control" name='phone' placeholder="Enter your WhatsApp number" oninput="validatePhoneNumber(this)">
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><img src="{% static 'images/homepage/graduation.png' %}" width="25px" height="25px" style="margin-right:10px;"> Select Grade</label>
+                    <select required class="form-select" name='grade'>
+                        <option selected>9th Grade</option>
+                        <option>10th Grade</option>
+                        <option>11th Grade</option>
+                        <option>12th Grade</option>
+                    </select>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><img src="{% static 'images/homepage/date.png' %}" width="25px" height="25px" style="margin-right:10px;"> Select Date</label>
+                    <input required type="date" class="form-control" name='date' id="dateInput">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><img src="{% static 'images/homepage/time.png' %}" width="25px" height="25px" style="margin-right:10px;"> Select Time (1hr Class)</label>
+                    <input required type="time" class="form-control" name='time' id="timePicker">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Book Free Demo Class</button>
+        </div>
+        </form>
+    </div>
+
+    {% if message %}
+    <script>
+        var messages = "{{ message|escapejs }}";
+        window.onload = function() {
+            alert(messages);
+        };
+    </script>
+    {% endif %}
+
+    <script>
+        function scrollToDiv() {
+            document.getElementById("book").scrollIntoView({ behavior: "smooth" });
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let index = 0;
+            const cards = document.querySelectorAll(".testimonial-card");
+            const totalCards = cards.length;
+            const visibleCards = window.innerWidth < 768 ? 1 : 2;
+
+            function showCards() {
+                cards.forEach((card, i) => {
+                    card.style.display = (i >= index && i < index + visibleCards) ? "block" : "none";
+                });
+            }
+
+            document.getElementById("nexts").addEventListener("click", function () {
+                if (index + visibleCards < totalCards) {
+                    index++;
+                } else {
+                    index = 0; // Loop back to start
+                }
+                showCards();
+            });
+
+            document.getElementById("prevs").addEventListener("click", function () {
+                if (index > 0) {
+                    index--;
+                } else {
+                    index = totalCards - visibleCards;
+                }
+                showCards();
+            });
+
+            showCards();
+        });
+
+        function validatePhoneNumber(input) {
+            input.value = input.value.replace(/[^0-9+]/g, ''); // Allow only numbers and +
+        }
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.querySelector(".card-container");
+            const cards = document.querySelectorAll(".card");
+            const nextBtn = document.querySelector(".next-btn");
+            const prevBtn = document.querySelector(".prev-btn");
+
+            let index = 0;
+            const cardMargin = 20; // Matches your CSS gap
+            const visibleCards = window.innerWidth < 768 ? 1 : 2;
+
+            const cardWidth = cards[0].offsetWidth + cardMargin;
+            const maxIndex = cards.length - visibleCards;
+
+            function updateSlider() {
+                container.style.transform = `translateX(-${index * cardWidth}px)`;
+            }
+
+            function moveSlider() {
+                index = (index + 1 > maxIndex) ? 0 : index + 1;
+                updateSlider();
+            }
+
+            let autoSlide = setInterval(moveSlider, 3000);
+
+            nextBtn.addEventListener("click", () => {
+                clearInterval(autoSlide);
+                index = (index + 1 > maxIndex) ? 0 : index + 1;
+                updateSlider();
+                autoSlide = setInterval(moveSlider, 3000);
+            });
+
+            prevBtn.addEventListener("click", () => {
+                clearInterval(autoSlide);
+                index = (index - 1 < 0) ? maxIndex : index - 1;
+                updateSlider();
+                autoSlide = setInterval(moveSlider, 3000);
+            });
+
+            window.addEventListener("resize", () => {
+                // Recalculate width on resize
+                location.reload(); // Simplest fix for now
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let timeInput = document.getElementById("timePicker");
+
+            timeInput.addEventListener("input", function () {
+                let timeValue = this.value;
+                console.log("Selected Time: " + timeValue); // Debugging
+            });
+        });
+    </script>
+    {% comment %} Country code {% endcomment %}
+    <script>
+        function updatePhoneCode() {
+            const select = document.getElementById("country-select");
+            const selectedOption = select.options[select.selectedIndex];
+            const stdCode = selectedOption.getAttribute("data-std");
+            const flag = selectedOption.getAttribute("data-flag");
+            const display = document.getElementById("country-code-display");
+
+            display.innerText = `${flag ? flag + ' ' : ''}${stdCode}`;
+        }
+
+        // Optional: call once on page load to set initial display
+        window.onload = updatePhoneCode;
+    </script>
+    {% comment %} For 10 digit validation {% endcomment %}
+    <script>
+        function validatePhoneNumber(input) {
+          input.value = input.value.replace(/\D/g, '');
+
+          if (input.value.length > 10) {
+            input.value = input.value.slice(0, 10);
+          }
+        }
+      </script>
+      {% comment %} Date  {% endcomment %}
+      <script>
+        let today = new Date();
+
+        // Add 1 day to get tomorrow's date
+        today.setDate(today.getDate() + 1);
+
+        // Format as YYYY-MM-DD
+        let tomorrow = today.toISOString().split('T')[0];
+
+        document.getElementById("dateInput").setAttribute("min", tomorrow);
+      </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

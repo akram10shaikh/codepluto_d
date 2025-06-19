@@ -1,0 +1,130 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #F5F9FF;
+  }
+
+  .container1 {
+    display: flex;
+    flex-direction: row;
+    padding: 40px;
+    gap: 20px;
+    background-color: #F5F9FF;
+    flex-wrap: wrap;
+  }
+
+  .sidebar1 {
+    flex: 0 0 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .sidebar1 button {
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid #5e63ff;
+    background-color: white;
+    color: #000;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar1 button:hover {
+    background-color: #f0f4ff;
+  }
+
+  .sidebar1 .active {
+    color: #5e63ff;
+    border-color: #5e63ff;
+  }
+
+  .content {
+    flex: 1;
+    padding-left: 40px;
+    background-color: #F5F9FF;
+    border-radius: 12px;
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+  }
+
+  .content img {
+    width: 300px;
+    max-width: 100%;
+    border-radius: 10px;
+    height: auto;
+  }
+
+  .description {
+    max-width: 600px;
+  }
+
+  .description h2 {
+    margin-top: 0;
+  }
+
+  .description p {
+    line-height: 1.6;
+    color: #333;
+  }
+
+  .course-section {
+    display: none;
+  }
+
+  .course-section.active {
+    display: flex;
+  }
+
+  @media (max-width: 1024px) {
+    .container1 {
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .sidebar1 {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .sidebar1 button {
+      flex: 1 1 45%;
+      text-align: center;
+    }
+
+    .content {
+      flex-direction: column;
+      padding-left: 0;
+      align-items: center;
+      text-align: center;
+    }
+
+    .description {
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .sidebar1 button {
+      flex: 1 1 100%;
+      font-size: 14px;
+      padding: 10px;
+    }
+
+    .content {
+      gap: 20px;
+    }
+
+    .description h2 {
+      font-size: 20px;
+    }
+
+    .description p {
+      font-size: 14px;
+    }
+  }

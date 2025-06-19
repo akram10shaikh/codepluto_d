@@ -1,0 +1,149 @@
+{% extends 'main_base.html' %}
+{% load static %}
+{% block 'title' %} Curriculum {% endblock %}
+{% block 'content' %}
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #F5F9FF;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    h2 {
+      color: #5e63ff;
+      margin-top: 30px;
+    }
+
+    .description {
+      max-width: 800px;
+      margin: 10px auto 30px;
+      color: #333;
+      font-size: 14px;
+      padding: 0 20px;
+    }
+
+    .slider-wrapper1 {
+      position: relative;
+      max-width: 1000px;
+      margin: auto;
+      overflow: hidden; /* Hide extra slides */
+    }
+
+    .slider1 {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .slide {
+      flex: 0 0 100%; /* Show one slide at a time */
+      background-color: #F5F9FF; /* Light color */
+      color: #5e63ff;;
+      padding: 30px 20px;
+      box-sizing: border-box;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Card effect */
+    }
+
+    .slide img {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    .slide h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .slide p {
+      font-size: 14px;
+      color: #333;
+    }
+
+    .dots {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .dot {
+      height: 12px;
+      width: 12px;
+      margin: 0 5px;
+      background-color: #ccc;
+      border-radius: 50%;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background-color: #d77dd7;
+    }
+
+    @media (max-width: 768px) {
+      .slide {
+        flex: 0 0 100%; /* Keep one slide visible on smaller screens */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Curriculum</h2>
+  <p class="description">
+    Our curriculum is expertly designed to maximize everyone’s potential through a holistic technology education program. This includes a robust foundation in coding, scientific inquiry, design thinking, and web development, with a focus on HTML/CSS.
+  </p>
+
+  <div class="slider-wrapper1">
+    <div class="slider1" id="slider1">
+      <div class="slide">
+        <img src="{% static 'images/curriculum/1.png' %}" alt="Technology">
+        <h3>Technology</h3>
+        <p>Use the latest technology to make things</p>
+      </div>
+      <div class="slide">
+        <img src="{% static 'images/curriculum/2.png' %}" alt="Tricks">
+        <h3>Useful Tricks</h3>
+        <p>Easy methods to make coding faster</p>
+      </div>
+      <div class="slide">
+        <img src="{% static 'images/curriculum/3.png' %}" alt="Ideas">
+        <h3>Creative Ideas</h3>
+        <p>Taking your thoughts and making them work in a program</p>
+      </div>
+      <div class="slide">
+        <img src="{% static 'images/curriculum/4.png' %}" alt="Knowledge">
+        <h3>Knowledge</h3>
+        <p>Gain useful coding abilities</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dots" style="padding-bottom:20px;">
+    <span class="dot active" onclick="goToSlide(0)"></span>
+    <span class="dot" onclick="goToSlide(1)"></span>
+    <span class="dot" onclick="goToSlide(2)"></span>
+    <span class="dot" onclick="goToSlide(3)"></span>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slider = document.getElementById('slider1');
+    const dots = document.querySelectorAll('.dot');
+
+    function goToSlide(index) {
+      currentSlide = index;
+      const offset = -(index * 100); // Move the slider to show the chosen slide
+      slider1.style.transform = `translateX(${offset}%)`;
+      dots.forEach(dot => dot.classList.remove('active'));
+      dots[index].classList.add('active');
+    }
+
+    // Optional: auto-slide
+    setInterval(() => {
+      currentSlide = (currentSlide + 1) % 4;
+      goToSlide(currentSlide);
+    }, 5000);
+  </script>
+
+{% endblock %}

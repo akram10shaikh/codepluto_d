@@ -1,0 +1,854 @@
+{% extends 'base.html' %}
+{% block 'title'%} Home {% endblock %}
+{% load static%}
+{% block 'content' %}
+<style>
+
+  .first-container{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  }
+  .current-box{
+    height:300px;
+    width:50%;
+
+    margin:5px;
+
+  }
+  .small-slider{
+    height:300px;
+    width:50%;
+
+  }
+  @media (max-width: 600px){
+    .first-container{
+      flex-direction:column;
+      justify-content:center;
+      align-itmes:center;
+    }
+    .current-box{
+      width:100%;
+
+    }
+    .small-slider{
+      width:100%;
+
+    }
+  }
+  .current-heading-title{
+    padding:10px;
+    color:black;
+    display:flex;
+    align-items:center;
+    font-weight:bold;
+    background-color:white;
+  }
+  .current-content{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+
+  }
+
+  {% comment %} Current Image Slider {% endcomment %}
+  .slider-container {
+    width: 400px;
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+
+    border-radius: 10px;
+  }
+
+  .slider {
+      display: flex;
+      width: 1200px; /* 300px * 3 images */
+      transition: transform 0.5s ease-in-out;
+  }
+
+  .slide {
+      width: 400px;
+      height: 300px;
+  }
+
+  @media (max-width: 600px){
+    .slider-container {
+      width: 100%;
+      height: 300px;
+    }
+    .slider {
+      width:1200px;
+    }
+    .slide {
+      width: 100%;
+      height: 300px;
+    }
+
+  }
+  .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+  }
+
+  .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+  }
+
+  .prev { left: 10px; }
+  .next { right: 10px; }
+
+  {% comment %} Second Container {% endcomment %}
+  .second-container{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  .second-first-box{
+    height:300px;
+    width:50%;
+    margin:5px;
+    background-color:white;
+  }
+  .second-second-box{
+    height:300px;
+    width:50%;
+    margin:5px;
+    background-image: url('{% static "images/student_dashboard/rank.png"%}');
+    background-repeat: no-repeat;
+  }
+  @media(max-width: 500px){
+    .second-container{
+      display:flex;
+      flex-direction:column;
+    }
+    .second-first-box{
+      width:100%;
+    }
+    .second-second-box{
+      width:100%;
+    }
+  }
+  .second-heading-title{
+    padding:10px;
+    padding-bottom:20px;
+    color:black;
+    display:flex;
+    align-items:center;
+    font-weight:bold;
+  }
+
+  .second-current-content{
+    display:flex;
+    flex-direction:column;
+    border:1px solid black;
+    margin:10px;
+  }
+
+  .second-card{
+    height:75px;
+    display:flex;
+    padding:10px;
+    justify-content:space-between;
+    align-items:center;
+    border:1px solid black;
+  }
+  .second-card-time{
+    padding:10px;
+    font-weight:400;
+    font-size:12px;
+  }
+  .second-card img{
+    height:50px;
+    width:50px;
+  }
+  .second-card-date{
+    width:50px;
+    height:50px;
+    background-color:#F5F9FF;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+  }
+  .second-card-footer{
+    height:30px;
+    display:flex;
+    padding-top:3px;
+    padding-left:10px;
+    padding-right:10px;
+    justify-content:space-between;
+    border:1px solid black;
+    align-items:start;
+    second-card-footer;
+    font-size:14px;
+  }
+  .second-card-footer-text{
+    color:black;
+  }
+  .second-card-footer-work{
+    display:flex;
+  }
+
+  {% comment %} Second's Second box {% endcomment %}
+  .second-second-content{
+    display:flex;
+  }
+
+  .second-second-first-box{
+    width:50%;
+    height:130px;
+    margin-right:2px;
+    background-color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    font-size:13px;
+    color:black;
+  }
+  .second-second-title{
+    padding:10px;
+    font-size:13px;
+    padding-bottom:20px;
+    color:black;
+    display:flex;
+    background-color:white;
+    justify-content:space-between;
+    font-weight:bold;
+  }
+  .second-second-title-main{
+    display:flex;
+  }
+  .second-second-second-box{
+    background-color:white;
+    width:50%;
+    height:130px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+  }
+
+  {% comment %} Third Container {% endcomment %}
+  .third-container{
+    height:170px;
+    background-color:white;
+    align-items:center;
+    margin-top:5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  .third-container-content{
+    display:flex;
+    justify-content:space-around;
+    height:90px;
+    font-size:13px;
+    align-items:center;
+  }
+  .third-heading-title{
+    padding:10px;
+    padding-bottom:15px;
+    color:black;
+    display:flex;
+    align-items:center;
+    font-weight:bold;
+  }
+  .progress-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 20px;
+    width: 0%;
+    background-color: #4caf50;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+  }
+  .first-third-box{
+    display:flex;
+    flex-direction:row;
+    padding:5px;
+  }
+  .first-third-first-box{
+      padding-top:15px;
+  }
+  .first-third-second-box{
+      padding-left:10px;
+      padding-top:10px;
+  }
+
+  {% comment %} Third second box {% endcomment %}
+   .second-third-box{
+    display:flex;
+    flex-direction:column;
+    align-items:space-around;
+
+  }
+  .second-third-first-box{
+    margin-bottom:10px;
+    display:flex;
+    align-items:center;
+    padding:5px;
+  }
+  .second-third-second-box{
+      margin-bottom:10px;
+      display:flex;
+      align-items:center;
+      padding:5px;
+  }
+
+  {% comment %} Third third box {% endcomment %}
+  .third-third-box{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .third-third-first-box{
+      margin-bottom:10px;
+  }
+  .third-third-second-box{
+    display:flex;
+  }
+
+  {% comment %} Third foruth box {% endcomment %}
+  .fourth-third-box{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .fourth-third-first-box{
+      background-color:#F5F9FF;
+      padding:8px;
+      margin-bottom:5px;
+      color:#5e63ff;
+      font-weight:bold;
+      display:flex;
+
+  }
+  .fourth-third-second-box{
+      background-color:#F5F9FF;
+      padding:8px;
+      margin-bottom:5px;
+      color:#5e63ff;
+      font-weight:bold;
+  }
+
+  @media(max-width: 500px){
+    .third-container{
+        width:100%;
+        height:400px;
+        display:flex;
+        flex-direction:column;
+        background-color:white;
+
+    }
+    .third-container-content{
+        width:100%;
+        display:flex;
+        flex-direction:column;
+
+    }
+  }
+
+  {% comment %} Fourth Container {% endcomment %}
+  .fourth-container{
+    width:100%;
+    height:270px;
+    margin-top:5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    color:black;
+  }
+  .fourth-box-content{
+    display:flex;
+    font-size:12px;
+    flex-direction:row;
+    justify-content:space-around;
+
+  }
+
+  @media (max-width: 500px){
+    .fourth-container{
+      max-width:40%;
+    }
+    .fourth-box-content{
+      max-width:40%;
+      display:flex;
+      flex-direction:column;
+    }
+  }
+  .fourth-box-title{
+    padding:10px;
+    padding-bottom:15px;
+    color:black;
+    display:flex;
+    align-items:center;
+    font-weight:bold;
+    background-color:white;
+
+  }
+  .fourth-first-card{
+    display:flex;
+    flex-direction:column;
+    margin-top:5px;
+    margin-left:5px;
+    min-width:170px;
+    height:205px;
+    background-color:white;
+    padding:10px;
+
+  }
+  .fourth-first-img{
+    display:flex;
+    padding-bottom:10px;
+    align-items:center;
+    font-size:14px;
+  }
+  .fourth-second-text{
+    margin-top:10px;
+    padding:5px;
+    display:flex;
+    padding-left:10px;
+    background-color:#F5F9FF;
+    width:90px;
+  }
+  .fourth-third-text{
+    display:flex;
+    flex-direction:column;
+  }
+  .fourth-third-text-first{
+    display:flex;
+    padding-top:20px;
+  }
+  .fourth-third-text-second{
+    display:flex;
+    padding-top:8px;
+  }
+  .fourth-button{
+    background-color:#5e63ff;
+    display:flex;
+    justify-content:center;
+    color:white;
+    font-weight:bold;
+    margin-top:18px;
+    padding:5px;
+    mouse:pointer;
+  }
+  .fourth-button:hover {
+    background-color:rgb(51, 55, 162);
+  }
+  .button-homework{
+    background-color:#5e63ff;
+    width:100%;
+  }
+  .live-class-card {
+    background: #fff;
+    border-radius: 1px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0px;
+  }
+
+  .live-class-card h2 {
+    margin-bottom: 15px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .class-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .class-icon {
+    background-color: #007bff;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    width: 50px;
+    height: 50px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+
+  .class-info h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #222;
+  }
+
+  .class-info p {
+    margin: 5px 0 0;
+    color: #555;
+  }
+
+  .join-btn {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+
+  .join-btn:hover {
+    background-color: #218838;
+  }
+  .empty-part{
+    width:100%;
+    height:87%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background-color:white;
+  }
+</style>
+<div class="container">
+  <div class="first-container">
+    <div class="current-box">
+
+      <div class="current-heading-title">
+        <img src="{% static 'images/student_dashboard/class.png' %}" width="15px" height="15px" style="padding-top:5px;margin-right:5px;margin-left:5px;">
+        <span>Today's Class {{now_time}} </span>
+      </div>
+      <div class="current-content">
+        {% for today_classs in today_class %}
+        <div class="live-class-card">
+          <h2>📅 Today's upcomming Class</h2>
+          <div class="class-info">
+            <div class="class-icon">C</div>
+            <div>
+              <h3>{{ today_classs.title}}</h3>
+              <p>🕑 {{ today_classs.start_time }} <br>🕑 {{ today_classs.end_time }}</p>
+            </div>
+          </div>
+          {% if now_time  >= today_classs.start_time %}
+            <a href="{{ today_classs.meet_link }}" class="join-btn">Join Meet</a>
+          {% endif %}
+
+          </div>
+          {% empty %}
+          <div class="empty-part">
+            <img src="{% static 'images/student_dashboard/noclass.png' %}" width="150px" height="150px">
+            <p style="font-weight:500;">There is no live classes today</p>
+          </div>
+          {% endfor %}
+
+      </div>
+
+    </div>
+    <div class="small-slider">
+      <div class="slider-container">
+        <div class="slider">
+            <div class="slide"><img src="{% static 'images/student_dashboard/offer1.png' %}" alt="Image 1"></div>
+            <div class="slide"><img src="{% static 'images/student_dashboard/offer2.jfif' %}" alt="Image 2"></div>
+            <div class="slide"><img src="{% static 'images/student_dashboard/offer3.jpg' %}" alt="Image 3"></div>
+        </div>
+        <button class="prev" onclick="prevSlide()">&#10094;</button>
+        <button class="next" onclick="nextSlide()">&#10095;</button>
+    </div>
+
+    </div>
+  </div>
+
+  {% comment %} Second container {% endcomment %}
+  <div class="second-container">
+    <div class="second-first-box">
+      <div class="second-heading-title">
+        <img src="{% static 'images/student_dashboard/class.png' %}" width="15px" height="15px" style="padding-top:5px;margin-right:5px;margin-left:5px;">
+        <span>Upcoming classes</span>
+      </div>
+      {% for upcoming in upcoming_class %}
+      <div class="second-current-content">
+        <div class="second-card">
+          <img src="{% static 'images/student_dashboard/c.png' %}">
+          <div class="second-card-time">
+            <p>{{ upcoming.start_time|time:"H:i" }} - {{ upcoming.end_time|time:"H:i" }}</p>
+            <p>{{ upcoming.title }}</p>
+          </div>
+          <div class="second-card-date">
+            <p style="font-size:15px;font-weight:bold;">{{ upcoming.start_time|date:"d" }}<br><span style="font-size:10px;">{{ upcoming.start_time|date:"M" }}</span></p>
+          </div>
+        </div>
+        <div class="second-card-footer">
+          <div class="second-card-footer-work">
+            <img src="{% static 'images/student_dashboard/class_grade.png' %}" width="15px" height="8px" style="padding-top:5px;margin-right:5px;margin-left:5px;">
+            <span class="second-card-footer-text">class 7</span>
+          </div>
+          <div class="second-card-footer-work">
+            <span class="second-card-footer-text"><a href="#">Reschedule</a></span>
+            <img src="{% static 'images/student_dashboard/reschedule.png' %}" width="12px" height="10px" style="padding-top:5px;margin-right:5px;margin-left:5px;">
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="second-empty" style="display: flex; flex-direction: column; align-items: center; justify-content: center;padding-top:40px;">
+            <img src="{% static 'images/student_dashboard/noclass.png' %}" width="150px" height="150px">
+            <p style="font-weight:500;">There is no live classes today</p>
+      </div>
+      {% endfor %}
+
+    </div>
+    <div class="second-second-box">
+      <div class="second-second-title">
+          <div class="second-second-title-main">
+            <img src="{% static 'images/student_dashboard/class.png' %}" width="15px" height="15px" style="padding-top:5px;margin-right:5px;margin-left:5px;">
+            <span>Student Marks Tracking</span>
+          </div>
+        <div style="padding-right:10px;">
+          <span>View Added Score</span>
+        </div>
+      </div>
+      <div class="second-second-content">
+        <div class="second-second-first-box">
+          <div class='title' style="font-size:12px;">
+            Marks
+          </div>
+          <div class="marks" style="font-size:18px;font-weight:bold;color:#3B82F6;">
+            80
+          </div>
+          <div class="outof" style="font-size:10px;">
+            out of 100
+          </div>
+          <div class="result" style="font-size:13px;background-color:#F5F9FF;padding:2px;">
+            Pass
+          </div>
+          <div class="addmore" style="font-size:10px;">
+            + Add another score
+          </div>
+        </div>
+        <div class="second-second-second-box">
+          <a href="#"><img src="{% static 'images/student_dashboard/plus.png' %}" width="30px" height="30px"></a>
+          <span style="font-size:12px;color:black;padding-top:10px;">Add upcoming exam dates</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% comment %} Third Container {% endcomment %}
+  {% for course in courses %}
+  <div class="third-container">
+
+    <div class="third-heading-title">
+        <img src="{% static 'images/student_dashboard/course-main.png' %}" width="15px" height="15px" style="margin-right:5px;margin-left:5px;">
+        <span>Courses Progress</span>
+      </div>
+
+    <div class="third-container-content">
+
+        <div class="first-third-box">
+            <div class="first-third-first-box">
+                <img src="{{ course.course.image.url }}" width="70px" height="70px">
+            </div>
+            <div class="first-third-second-box">
+                <span style="color:black">{{ course.course.course_name }}</span><br>
+                <progress value="{{ course.progress }}" max="100"></progress><span style="color:blue;font-weight:bold;font-size:15px;"> {{ course.progress }} %</span>
+                <p>Completed 0 of {{  course.course.total_lectures }} classes</p>
+            </div>
+        </div>
+        <div class="second-third-box">
+            <div class="second-third-first-box">
+                <img src="{% static 'images/student_dashboard/cancelled.png' %}" width="15px" height="15px" style="margin-right:8px;">
+                <span style="color:black">0 Class Cancellation</span>
+            </div>
+            <div class="second-third-second-box">
+                <img src="{% static 'images/student_dashboard/attended.png' %}" width="15px" height="15px" style="margin-right:8px;">
+                <span style="color:black">0 classes are attended</span>
+            </div>
+        </div>
+        <div class="third-third-box">
+            <div class="third-third-first-box">
+              <span style="color:black;font-weight:500px;">Last 7 Classes</span>
+            </div>
+            <div class="third-third-second-box">
+                {% comment %} <img src="{% static 'images/student_dashboard/wrong.png' %}" width="15px" height="15px" style="margin-top:10px;margin-right:5px;">
+                <img src="{% static 'images/student_dashboard/right.png' %}" width="15px" height="15px" style="margin-top:10px;margin-right:5px;">
+                <img src="{% static 'images/student_dashboard/wrong.png' %}" width="15px" height="15px" style="margin-top:10px;margin-right:5px;">
+                <img src="{% static 'images/student_dashboard/wrong.png' %}" width="15px" height="15px" style="margin-top:10px;margin-right:5px;">
+                <img src="{% static 'images/student_dashboard/right.png' %}" width="15px" height="15px" style="margin-top:10px;margin-right:5px;">
+                <img src="{% static 'images/student_dashboard/wrong.png' %}" width="15px" height="15px" style="margin-top:10px;margin-right:5px;">
+                <img src="{% static 'images/student_dashboard/wrong.png' %}" width="15px" height="15px" style="margin-top:10px;margin-right:5px;"> {% endcomment %}
+              <p> No data available </p>
+              </div>
+        </div>
+        <div class="fourth-third-box">
+            <div class="fourth-third-first-box">
+                <span>Progress Report</span> <a href="#"><img src="{% static 'images/student_dashboard/report.png' %}" width="12px" height="12px" style="margin-left:10px;margin-top:5px;"></a>
+            </div>
+            <div class="fourth-third-second-box">
+                <a href="#">Add Classes + </a>
+            </div>
+        </div>
+    </div>
+  </div>
+  {% empty %}
+    <div class="third-container" style="display:flex;justify-content:center;">
+      <img src="{% static 'images/homepage/no_course.png' %}" style="width:200px;height:50;display:flex;justify-content:center;" >
+    </div>
+    {% endfor %}
+
+  {% comment %} Fourth Container {% endcomment %}
+  <div class="fourth-container">
+    <div class="fourth-box-title">
+      <img src="{% static 'images/student_dashboard/course-main.png' %}" width="15px" height="15px" style="margin-right:5px;margin-left:5px;">
+      <span>Homework and Assignment</span>
+    </div>
+    {% for homework in homeworks %}
+    <div class="fourth-box-content">
+      <div class="fourth-first-card">
+        <div class="fourth-first-img">
+          <img src="{% static 'images/student_dashboard/python.png' %}" width="30px" height="25px" style="margin-right:5px;margin-left:5px;">
+          <span>Python</span>
+        </div>
+        <div class="fourth-second-text">
+          <img src="{% static 'images/student_dashboard/sandbox.png' %}" width="15px" height="10px" style="margin-right:5px;">
+          <span>Sandbox</span>
+        </div>
+        <div class="fourth-third-text">
+          <div class="fourth-third-text-first">
+            <img src="{% static 'images/student_dashboard/arrow-left.png' %}" width="8px" height="2px" style="margin-right:5px;margin-left:5px;">
+            <span style="font-size:10px;">Course overview for here</span>
+          </div>
+          <div class="fourth-third-text-second">
+            <img src="{% static 'images/student_dashboard/date.png' %}" width="15px" height="12px" style="margin-right:5px;margin-left:5px;">
+            <span>26 March 2025</span>
+          </div>
+        </div>
+        <div class="fourth-button">
+          <a href="#">View</a>
+        </div>
+      </div>
+
+      <div class="fourth-first-card">
+        <div class="fourth-first-img">
+          <img src="{% static 'images/student_dashboard/python.png' %}" width="30px" height="25px" style="margin-right:5px;margin-left:5px;">
+          <span>Python</span>
+        </div>
+        <div class="fourth-second-text">
+          <img src="{% static 'images/student_dashboard/sandbox.png' %}" width="15px" height="10px" style="margin-right:5px;">
+          <span>Sandbox</span>
+        </div>
+        <div class="fourth-third-text">
+          <div class="fourth-third-text-first">
+            <img src="{% static 'images/student_dashboard/arrow-left.png' %}" width="8px" height="2px" style="margin-right:5px;margin-left:5px;">
+            <span>Course overview for here</span>
+          </div>
+          <div class="fourth-third-text-second">
+            <img src="{% static 'images/student_dashboard/date.png' %}" width="15px" height="12px" style="margin-right:5px;margin-left:5px;">
+            <span>26 March 2025</span>
+          </div>
+        </div>
+        <div class="fourth-button">
+          <a href="#">View</a>
+        </div>
+      </div>
+
+      <div class="fourth-first-card">
+        <div class="fourth-first-img">
+          <img src="{% static 'images/student_dashboard/python.png' %}" width="30px" height="25px" style="margin-right:5px;margin-left:5px;">
+          <span>Python</span>
+        </div>
+        <div class="fourth-second-text">
+          <img src="{% static 'images/student_dashboard/sandbox.png' %}" width="15px" height="10px" style="margin-right:5px;">
+          <span>Sandbox</span>
+        </div>
+        <div class="fourth-third-text">
+          <div class="fourth-third-text-first">
+            <img src="{% static 'images/student_dashboard/arrow-left.png' %}" width="8px" height="2px" style="margin-right:5px;margin-left:5px;">
+            <span>Course overview for here</span>
+          </div>
+          <div class="fourth-third-text-second">
+            <img src="{% static 'images/student_dashboard/date.png' %}" width="15px" height="12px" style="margin-right:5px;margin-left:5px;">
+            <span>26 March 2025</span>
+          </div>
+        </div>
+        <div class="fourth-button">
+          <a href="#">View</a>
+        </div>
+      </div>
+
+      <div class="fourth-first-card">
+        <div class="fourth-first-img">
+          <img src="{% static 'images/student_dashboard/python.png' %}" width="30px" height="25px" style="margin-right:5px;margin-left:5px;">
+          <span>Python</span>
+        </div>
+        <div class="fourth-second-text">
+          <img src="{% static 'images/student_dashboard/sandbox.png' %}" width="15px" height="10px" style="margin-right:5px;">
+          <span>Sandbox</span>
+        </div>
+        <div class="fourth-third-text">
+          <div class="fourth-third-text-first">
+            <img src="{% static 'images/student_dashboard/arrow-left.png' %}" width="15px" height="10px" style="margin-right:5px;margin-left:5px;">
+            <span>Course overview for here</span>
+          </div>
+          <div class="fourth-third-text-second">
+            <img src="{% static 'images/student_dashboard/date.png' %}" width="15px" height="12px" style="margin-right:5px;margin-left:5px;">
+            <span>26 March 2025</span>
+          </div>
+        </div>
+        <div class="fourth-button">
+          <a href="#">View</a>
+        </div>
+      </div>
+
+
+
+    </div>
+    {% empty %}
+    <div class="abc" style="display:flex;justify-content:center;padding-top:30px">
+      <img src="{% static 'images/homepage/no_homework.png' %}" style="width:200px;height:50;">
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+
+<script>
+  let currentIndex = 0;
+
+  function showSlide(index) {
+      const slider = document.querySelector('.slider');
+      if (index < 0) {
+          currentIndex = 2; // Last image
+      } else if (index > 2) {
+          currentIndex = 0; // First image
+      } else {
+          currentIndex = index;
+      }
+      slider.style.transform = `translateX(${-currentIndex * 400}px)`;
+  }
+
+  function nextSlide() {
+      showSlide(currentIndex + 1);
+  }
+
+  function prevSlide() {
+      showSlide(currentIndex - 1);
+  }
+
+  setInterval(nextSlide, 3000); // Auto-slide every 3 seconds
+</script>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'main_base.html' %}
+{% load static %}
+{% block 'title' %} Courses {% endblock%}
+{% block 'content' %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/courses.css' %}">
+</head>
+
+<div class="container1">
+  <div class="sidebar1">
+    <button class="active" onclick="showSection('scratch')">Scratch</button>
+    <button onclick="showSection('python')">Python</button>
+    <button onclick="showSection('ml')">Python With ML</button>
+    <button onclick="showSection('web')">Web Development</button>
+    <button onclick="showSection('app')">App Development<br>(Block Based)</button>
+  </div>
+
+  <!-- Scratch -->
+  <div id="scratch" class="content course-section active">
+    <img src="{% static 'images/courses/scratch.png' %}" alt="Scratch">
+    <div class="description">
+      <h2>Scratch</h2>
+      <p>Scratch is a visual programming language designed to introduce programming concepts to beginners, particularly children. Developed by the MIT Media Lab, Scratch uses a drag-and-drop interface where users can create scripts by snapping together colorful, puzzle-like blocks. These blocks represent different programming commands and functions, making it easier for users to understand and manipulate code without needing to write syntax. Scratch encourages creativity and logical thinking as users design interactive stories, games, and animations, while also providing a solid foundation for more advanced programming skills.</p>
+    </div>
+  </div>
+
+  <!-- Python -->
+  <div id="python" class="content course-section">
+    <img src="{% static 'images/courses/python.png' %}" alt="Python">
+    <div class="description">
+      <h2>Python</h2>
+      <p>Python is a popular, high-level programming language known for its simplicity and readability. It's widely used for web development, automation, data analysis, artificial intelligence, and more. Python's straightforward syntax makes it an excellent choice for beginners and professionals alike.</p>
+    </div>
+  </div>
+
+  <!-- Python With ML -->
+  <div id="ml" class="content course-section">
+    <img src="{% static 'images/courses/pythonwithml.png' %}" alt="Python ML">
+    <div class="description">
+      <h2>Python With ML</h2>
+      <p>This course introduces machine learning concepts using Python. Learn about supervised and unsupervised learning, model training, and libraries like Scikit-learn, Pandas, and TensorFlow to build your own intelligent applications.</p>
+    </div>
+  </div>
+
+  <!-- Web Development -->
+  <div id="web" class="content course-section">
+    <img src="{% static 'images/courses/web.png' %}" alt="Web Development">
+    <div class="description">
+      <h2>Web Development</h2>
+      <p>Master front-end and back-end web development with technologies like HTML, CSS, JavaScript, and Django. This course guides you from building static pages to creating dynamic, database-driven websites and full-stack applications.</p>
+    </div>
+  </div>
+
+  <!-- App Development -->
+  <div id="app" class="content course-section">
+    <img src="{% static 'images/courses/webdev.png' %}" alt="App Development">
+    <div class="description">
+      <h2>App Development (Block Based)</h2>
+      <p>Learn how to build mobile apps using block-based development tools like MIT App Inventor or Thunkable. Perfect for beginners, this visual approach to programming helps you design functional and creative apps without writing complex code.</p>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'js/courses.js' %}"></script>
+
+
+{% endblock %}

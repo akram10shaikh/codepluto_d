@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        .progress-container { width: 80%; background: #eee; border-radius: 10px; margin: 20px auto; padding: 10px; }
+        .progress-bar { height: 30px; background: #4CAF50; text-align: center; color: white; line-height: 30px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <h1>Project Dashboard</h1>
+    <a href="{% url '' %}">Vlick </a>
+    <div class="progress-container">
+        <div class="progress-bar" style="width: {{ completed_tasks|floatformat:0 }}%;">
+            {{ completed_tasks }} / {{ total_tasks }} Tasks Completed
+        </div>
+    </div>
+
+    <h2>Days Left: {{ days_left }}</h2>
+
+    <div class="chart-container" style="width:300px">
+        <embed type="image/svg+xml" src="{{ chart_svg }}" />
+    </div>
+
+    {% comment %} <form method="POST">
+        {% csrf_token %}
+        <select name="country">
+            {% for code, info in countries.items %}
+                <option value="{{ code }}" {% if code == selected_code %}selected{% endif %}>
+                    {{ info.0 }} ({{ code }})
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if selected_code %}
+        <h3>You selected:</h3>
+        <p>Country Code: {{ selected_code }}</p>
+        <p>Country Name: {{ selected_name }}</p>
+        <p>STD Code: {{ std_code }}</p>
+    {% endif %} {% endcomment %}
+
+    <h2>Select a Country</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <select name="country">
+            {% for code, info in countries.items %}
+                <option value="{{ code }}" {% if code == selected_code %}selected{% endif %}>
+                    {{ info.0 }} ({{ info.1 }})
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if selected_country %}
+        <h3>You selected:</h3>
+        <p><strong>Country:</strong> {{ selected_country }}</p>
+        <p><strong>STD Code:</strong> {{ std_code }}</p>
+    {% endif %}
+</body>
+</html>

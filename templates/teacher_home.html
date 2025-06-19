@@ -1,0 +1,821 @@
+{% extends 'teacher/tbase.html' %}
+{% load static %}
+{% block 'title' %} Home {% endblock %}
+{% block 'content' %}
+<style>
+    .container-first {
+        display: flex;
+        padding:3px;
+    }
+
+    .first-box1 {
+        width: 50%;
+        height: 160px;
+        margin-right: 7px;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        border-radius: 5px;
+        box-shadow: 3px 3px 12px #d1d9e6, -3px -3px 12px #d1d9e6;
+    }
+
+    .first-box2 {
+        width: 50%;
+        height: 160px;
+        border-radius: 5px;
+        box-shadow: 3px 3px 12px #d1d9e6, -3px -3px 12px #d1d9e6;
+    }
+
+    @media (max-width: 600px) {
+        .container-first {
+        flex-direction: column;
+        }
+
+        .first-box1 {
+        width: 100%;
+        margin-bottom: 7px;
+        }
+
+        .first-box2 {
+        width: 100%;
+        }
+    }
+
+    .first-box-title {
+        color: black;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .first-box-content {
+        display: flex;
+    }
+
+    .box1-1 {
+        width: 30%;
+        height: 90px;
+        margin: 5px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .box1-2 {
+        width: 30%;
+        height: 90px;
+        margin: 5px;
+
+        display:flex;
+        justify-content:center;
+    }
+
+    .box1-3 {
+        width: 30%;
+        height: 90px;
+        margin: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Scoped styling for circular rating only */
+    .rating-wrapper {
+        position: relative;
+        width: 90px;
+        height: 90px;
+    }
+
+    .rating-wrapper svg {
+        transform: rotate(125deg); /* center the arc on bottom */
+        width: 90px;
+        height: 90px;
+    }
+
+    .rating-wrapper .progress-ring__bg,
+    .rating-wrapper .progress-ring__circle {
+        fill: none;
+        stroke-width: 7;
+        r: 40;
+        cx: 45;
+        cy: 45;
+    }
+
+    .rating-wrapper .progress-ring__bg {
+        stroke: #ddd;
+        stroke-dasharray: 201.1; /* 2π × 40 × 0.8 */
+        stroke-linecap: butt;
+    }
+
+    .rating-wrapper .progress-ring__circle {
+        stroke: #2ecc71;
+        stroke-dasharray: 201.1;
+        stroke-dashoffset: 201.1;
+        stroke-linecap: butt;
+        transition: stroke-dashoffset 1s ease;
+    }
+
+    .rating-wrapper .rating-text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 90px;
+        height: 90px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: sans-serif;
+        color: #333;
+    }
+
+    .rating-wrapper .number {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .rating-wrapper .label {
+        font-size: 11px;
+        color: #666;
+    }
+
+  .carousel-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 5px;
+  position: relative;
+}
+
+.carousel-container {
+  display: flex;
+  width: 100%;
+  animation: slide 16s infinite;
+  height: 100%;
+}
+
+.carousel-container img {
+
+  object-fit: cover;
+  flex: 1 0 100%;
+  transition: transform 0.5s ease-in-out;
+  border-radius: 5px;
+}
+
+@keyframes slide {
+  0% { transform: translateX(0%); }
+  20% { transform: translateX(0%); }
+  25% { transform: translateX(-100%); }
+  45% { transform: translateX(-100%); }
+  50% { transform: translateX(-200%); }
+  70% { transform: translateX(-200%); }
+  75% { transform: translateX(-300%); }
+  95% { transform: translateX(-300%); }
+  100% { transform: translateX(0%); }
+}
+
+    /* Style for second container */
+
+.container-second {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Both main boxes: take half on desktop, full on mobile */
+.second-box1,
+.second-box2 {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  width: 48%;
+  box-sizing: border-box;
+  min-height: 400px;
+}
+
+@media (max-width: 768px) {
+  .second-box1,
+  .second-box2 {
+    width: 100%;
+  }
+}
+
+/* First Section (Top 4 Stats) */
+.second-box1-1 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.second-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 10px;
+}
+
+.box2-1, .box2-2, .box2-3, .box2-4 {
+  flex: 1 1 22%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;  /* Center vertically */
+  text-align: center;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 15px 10px;
+  text-align: center;
+  box-shadow: 1px 1px 6px rgba(0,0,0,0.1);
+}
+
+.box2-1 img, .box2-2 img, .box2-3 img, .box2-4 img {
+  margin-bottom: 10px;
+}
+
+.number {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.text-1 {
+  font-size: 12px;
+  color: #444;
+  margin: 0;
+}
+
+/* Second Section (Messages & Pending Activities) */
+.second-box1-2 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.second-box1-1-1,
+.second-box1-1-2 {
+  flex: 1 1 48%;
+}
+
+.second-box-1-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;  /* Center vertically */
+  text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+  box-shadow: 1px 1px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.title h4 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.second-box1-1-2-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.heading-1 {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.text-2 {
+  font-size: 13px;
+  color: #555;
+}
+
+/* Second Box (Right Side) with Sections */
+.section {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 1px 1px 6px rgba(0,0,0,0.1);
+  padding: 15px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.text-block {
+  flex: 1 1 60%;
+}
+
+.text-block h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.text-block p {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+.number-box {
+  background-color: #ffeaea;
+  border-radius: 8px;
+  padding: 12px;
+  flex: 1 1 35%;
+  min-width: 130px;
+  text-align: center;
+}
+
+.number-box.schedule {
+  background-color: #eaffea;
+}
+
+.number-box .value {
+  font-size: 28px;
+  font-weight: bold;
+  color: #d33;
+}
+
+.number-box.schedule .value {
+  color: #2d9a5e;
+}
+
+.number-box .label {
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+
+.number-box a {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+
+    {% comment %} Third container {% endcomment %}
+    .session-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      margin-top: 10px;
+      background-color: white;
+      margin: auto;
+      border-radius: 8px;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+      background-color: white;
+    }
+    .section-title {
+      font-size: 20px;
+      color:black;
+      background-color:white;
+      padding:10px;
+      font-weight: bold;
+      color: #333;
+      font-size: 20px;
+    }
+    .view-more a {
+      font-size: 14px;
+      color: #007bff;
+      text-decoration: none;
+      padding-right:20px;
+    }
+
+    .view-more a:hover {
+      text-decoration: underline;
+    }
+    /* Scroll wrapper */
+    .scroll-wrapper {
+      max-height: 470px; /* enough for approx. 2 sessions */
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 10px;
+      background: #fff;
+    }
+
+    .session {
+      background: #fcfcfc;
+      border: 1px solid #eee;
+      border-left: 4px solid #FF6B6B;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      box-shadow: 0 0 4px rgba(0,0,0,0.05);
+    }
+
+    .session-left {
+      min-width: 80px;
+      text-align: center;
+      font-weight: bold;
+      color: #444;
+    }
+
+    .session-info {
+      flex: 1;
+      padding-left: 15px;
+    }
+
+    .session-info h4 {
+      margin: 0;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .session-info .class-id {
+      font-size: 12px;
+      margin: 5px 0;
+      color: #e74c3c;
+      font-weight: bold;
+    }
+
+    .session-info .mentor {
+      font-size: 13px;
+      color: #3498db;
+      margin-bottom: 5px;
+    }
+
+    .session-info .note {
+      font-size: 12px;
+      color: #555;
+      margin-bottom: 5px;
+    }
+
+    .session-info .icons {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .session-info .icons i {
+      margin-right: 10px;
+    }
+
+    .session-right {
+      align-self: center;
+    }
+
+    .session-right button {
+      background-color: #2980b9;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .session-right button:hover {
+      background-color: #216a9c;
+    }
+
+    /* Optional scrollbar styling */
+    .scroll-wrapper::-webkit-scrollbar {
+      width: 6px;
+    }
+    .scroll-wrapper::-webkit-scrollbar-thumb {
+      background-color: #ccc;
+      border-radius: 10px;
+    }
+    {% comment %} Fourth container {% endcomment %}
+
+    .feedback-container {
+      max-width: 100%;
+      margin: auto;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+      background-color: #fff;
+      overflow-x: auto;
+    }
+
+    .feedback-title {
+      font-weight: bold;
+      font-size: 20px;
+      padding: 15px 10px;
+      color: #222;
+      border-bottom: 2px solid #f0f0f0;
+
+    }
+
+    .scrollable-table {
+      overflow-y: auto;
+      max-height: calc(3 * 52px + 1px); /* 3 rows * row height + border fix */
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+
+    .scrollable-table table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+      table-layout: fixed;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      background-color: #f9f9f9;
+      z-index: 2;
+      font-weight: 600;
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+      color: #333;
+    }
+
+    tbody td {
+      padding: 12px;
+      font-size: 14px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+      color: #333;
+    }
+
+    tbody tr:hover {
+      background-color: #fefefe;
+    }
+
+    td i.fa-link {
+      margin-left: 6px;
+      color: #3498db;
+      cursor: pointer;
+    }
+
+    .no-feedback {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 15px;
+      color: gray;
+    }
+
+    @media (max-width: 768px) {
+      .feedback-container {
+        padding: 10px;
+      }
+
+      .feedback-title {
+        font-size: 18px;
+      }
+
+      thead th,
+      tbody td {
+        font-size: 13px;
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      thead th,
+      tbody td {
+        font-size: 12px;
+        padding: 8px;
+      }
+
+      .scrollable-table {
+        max-height: 180px;
+      }
+    }
+
+
+</style>
+
+<div class="container-first">
+  <div class="first-box1">
+    <div class="first-box-title">
+      <h3 style="padding-left:8px;padding-top:10px;">Hi, {{ request.user.first_name }}</h3>
+      <p style="padding-right:8px;padding-top:10px;"><a href="{% url 'teacher_profile_view' %}">View all</a></p>
+    </div>
+    <div class="first-box-content">
+      <div class="box1-1">
+        {% if user.image %}
+        <img src="{{ user.image.url }}" width="80px" height="80px">
+        {% else %}
+        <img src="{% static 'images/teacher_dashboard/user_icon.png' %}" width="80px" height="80px">
+        {% endif %}
+      </div>
+      <div class="box1-2">
+        <img src="{{ image }}" width="80px" height="80px">
+      </div>
+      <div class="box1-3">
+        <div class="rating-wrapper">
+          <svg>
+            <circle class="progress-ring__bg" r="40" cx="45" cy="45" />
+            <circle class="progress-ring__circle" r="40" cx="45" cy="45" id="progressCircle" />
+          </svg>
+          <div class="rating-text">
+            <div class="number">{{ rating }}</div>
+            <div class="label">Your Rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="first-box2">
+    <div class="carousel-wrapper">
+  <div class="carousel-container" id="carousel">
+    <img src="{% static 'images/teacher_dashboard/image (2).jpeg' %}" alt="Image 1" width="50px" height="50px">
+    <img src="{% static 'images/teacher_dashboard/image (1).jpeg' %}" alt="Image 2"  width="50px" height="50px">
+    <img src="{% static 'images/teacher_dashboard/image (1).jpg' %}" alt="Image 3"  width="50px" height="50px">
+    <img src="{% static 'images/teacher_dashboard/image (2).jpeg' %}" alt="Image 4"  width="50px" height="50px">
+  </div>
+</div>
+  </div>
+</div>
+
+<!-- The second container -->
+<div class="container-second">
+  <div class="second-box1">
+    <div class="second-box1-1">
+      <div class="second-content">
+        <div class="box2-1">
+          <img src="{% static 'images/teacher_dashboard/total_enrollment.png' %}" width="30px" height="30px">
+          <p class="number">{{ total_enrollement }}</p>
+          <p class="text-1">TOTAL ENROLLEMENT</p>
+        </div>
+        <div class="box2-2">
+          <img src="{% static 'images/teacher_dashboard/demo_classes.png' %}" width="30px" height="30px">
+          <p class="number">{{ demo_class }}</p>
+          <p class="text-1">DEMO CONVERSTION</p>
+        </div>
+        <div class="box2-3">
+          <img src="{% static 'images/teacher_dashboard/pending_classes.png' %}" width="30px" height="30px">
+          <p class="number">333</p>
+          <p class="text-1">PENDING CLASSES</p>
+        </div>
+        <div class="box2-4">
+          <img src="{% static 'images/teacher_dashboard/total_earning.png' %}" width="30px" height="30px">
+          <p class="number">{{ earning }}</p>
+          <p class="text-1">TOTAL EARNINGS</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!--Second box of the first container-->
+    <div class="second-box1-2">
+      <div class="second-box1-1-1">
+          <div class="second-box-1-text">
+              <img src="{% static 'images/teacher_dashboard/pending_classes.png' %}" width="30px" height="30px">
+              <p class="number">2</p>
+              <p class="text-1">MESSAGES TODAY</p>
+          </div>
+          <div class="second-box-1-text">
+            <div class="image-class">
+              <img src="{% static 'images/teacher_dashboard/pending_classes.png' %}" width="30px" height="30px">
+            </div>
+              <p class="number">1</p>
+              <p class="text-1">FREE SLOTS TODAY</p>
+          </div>
+      </div>
+      <div class="second-box1-1-2">
+        <div class="title">
+          <h4>Your Pending Activites</h4>
+        </div>
+        <div class="second-box1-1-2-body" style="margin-top:15px;">
+            <span class="heading-1">402</span>
+            <span class="text-2">Pending class feedbacks. <a href="" style="color:red">Update</a></span >
+            <span class="heading-1">402</span>
+            <span  class="text-2">Long requests. <a href=""  style="color:red">Update</a></span >
+            <span class="heading-1">402</span>
+            <span  class="text-2">Plus classes today. <a href=""  style="color:red">Update</a></span >
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Second box of the second container-->
+  <div class="second-box2">
+    <div class="section">
+      <div class="text-block">
+        <h3>Auto add slot</h3>
+        <p>Enable this to auto-add slots in next 7 days for demos and classes</p>
+        <p>Class slots are only used for rescheduling in assigned batches and substitutions</p>
+      </div>
+      <div class="number-box">
+        <div class="value">0</div>
+        <div class="label">Free slots for next 7 days</div>
+        <a href="#">View slots ></a>
+      </div>
+    </div>
+
+    <!-- Regular Schedule Section -->
+    <div class="section">
+      <div class="text-block">
+        <h3>Regular schedule</h3>
+        <p>Regular schedules are used for assigning batches for regular classes</p>
+      </div>
+      <div class="number-box schedule">
+        <div class="value">22</div>
+        <div class="label">Free Schedules</div>
+        <a href="#">View schedule ></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--The third container-->
+<div class="section-header">
+  <div class="section-title">UPCOMING SESSION</div>
+  <div class="view-more"><a href="{% url 'teacher_upcomming_class' %}">View More</a></div>
+  </div>
+  <div class="scroll-wrapper">
+    <!-- Repeatable Session Cards -->
+    {% for upcoming in upcomming_class %}
+    <div class="session">
+      <div class="session-left">{{ upcoming.start_time|time:"h:i" }}<br>{{ upcoming.start_time|time:"A" }}<br>{{ upcoming.start_time|date:"l" }}<br>{{ upcoming.start_time|date:"d/m/Y" }}</div>
+      <div class="session-info">
+        <h4>{{ upcoming.title }}</h4>
+        <div class="class-id"></div>
+        <div class="mentor">👤{{ upcoming.user.get_full_name }}</div>
+        <div class="note">{{ upcoming.description }}</div>
+      </div>
+      <div class="session-right">
+        <a href="{{ upcoming.meet_link }}">Join Now</a>
+      </div>
+    </div>
+    {% empty %}
+       <p style="text-align: center; color: gray; margin-top: 20px;">No upcoming classes</p>
+    {% endfor %}
+  </div>
+</div>
+
+<!--The Fourth container-->
+<div class="feedback-container">
+  <div class="feedback-title" style="display:flex;justify-content: space-between;align-items: center;">
+    <div class="title1">
+    FEEDBACK SUMMARY FOR TODAY
+    </div>
+    <div class="view-more">
+      <a href="{% url 'teacher_feedback_page' %}">View More</a>
+    </div>
+  </div>
+  {% if feedbacks %}
+  <div class="scrollable-table">
+    <table>
+      <thead>
+        <tr>
+          <th>DATE TIME</th>
+          <th>STUDENT</th>
+          <th>EMAIL</th>
+          <th>COURSE</th>
+          <th>CLASS</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for feedback in feedbacks %}
+        <tr>
+          <td>{{ feedback.created_at }}</td>
+          <td>{{ feedback.user.full_name }} <i class="fa fa-link"></i></td>
+          <td>{{ feedback.user.email }}</td>
+          <td>{{ feedback.course.course_name }}</td>
+          <td>{{ feedback.course.id }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="no-feedback">No feedback available</p>
+  {% endif %}
+</div>
+
+
+
+<script>
+  const rating = {{ rating|default:0 }};
+  const circle = document.getElementById("progressCircle");
+  const radius = circle.r.baseVal.value;
+  const fullCircumference = 2 * Math.PI * radius;
+  const visibleArc = fullCircumference * 0.8;
+
+  const progress = Math.min(Math.max(rating / 100, 0), 1);
+  const offset = visibleArc * (1 - progress);
+
+  circle.style.strokeDasharray = visibleArc;
+  circle.style.strokeDashoffset = offset;
+</script>
+
+{% endblock %}

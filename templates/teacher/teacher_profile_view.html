@@ -1,0 +1,272 @@
+{% extends 'teacher/tbase.html' %}
+{% block 'title'%} Profile {% endblock %}
+{% load static %}
+{% block 'content' %}
+<style>
+  body {
+    background-color: #F5F9FF;
+  }
+
+  .container-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .card h3, .card h2 {
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+  }
+
+  .btn, .upload-btn, .view-button {
+    background-color: #e33e3e;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+  }
+
+  .btn a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .profile-icon img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 10px;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .stat-list li, .bar-row, .badge-details li {
+    font-size: 14px;
+    margin: 6px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .bar {
+    background: #e0e0e0;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    flex: 1;
+    margin: 0 10px;
+  }
+
+  .fill {
+    height: 100%;
+    border-radius: 5px;
+  }
+
+  .good { background-color: #76d275; }
+  .fair { background-color: #ffee58; }
+  .bad { background-color: #ef5350; }
+
+  .video-item video {
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .tab {
+    font-weight: bold;
+    cursor: pointer;
+    color: #888;
+  }
+
+  .tab.active {
+    color: #000;
+    border-bottom: 2px solid #000;
+  }
+
+  .badge-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .badge-image img {
+    max-width: 100px;
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+
+  .custom-file-label {
+    background-color: #e33e3e;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 5px;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  .image-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .image-upload-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+</style>
+
+
+  <div class="container-grid">
+    <div class="card">
+      <h3>My Personal Details</h3>
+      <p><strong>First Name:</strong> {{ form.first_name }}</p>
+      <p><strong>Last Name:</strong> {{ form.last_name }}</p>
+      <p><strong>Email Address:</strong> {{ form.email }}</p>
+      <p><strong>Mobile Number:</strong> {{ form.phone }}</p>
+      <button class="btn"><a href="{% url 'teacher_profile_page' %}">VIEW PROFILE</a></button>
+    </div>
+
+    <div class="card">
+      <h3>Profile Image</h3>
+      <div class="image-upload-container">
+        <img src="{{ form.image.url }}" alt="Profile image" width="200" />
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>My Profile</h3>
+      <p>As an experienced and highly skilled professional with a strong proficiency in Python, Django, Kotlin, and Android development and robotics...</p>
+      <div class="info-grid">
+        <div><strong>Degree:</strong> {{ form.degree }}</div>
+        <div><strong>College:</strong> {{ form.college }}</div>
+        <div><strong>Total teaching experience:</strong> {{ form.experience }}</div>
+        <div><strong>Total sessions taken:</strong> 4800</div>
+        <div><strong>Total students taught:</strong> 60</div>
+        <div><strong>Languages:</strong> {{ form.language }}</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>My Earnings</h3>
+      <p><strong>Last Updated:</strong> {{ today }}</p>
+      <p><strong>Total Earnings:</strong> ₹{{ earning }}</p>
+      <small>*Final pay does not include penalties.</small>
+    </div>
+  </div>
+
+<div class="container-grid">
+  <div class="card">
+    <h3>Demos</h3>
+    <ul class="stat-list">
+      <li>Total Demos <span>{{ demo_class.demo_total }}</span></li>
+      <li>Successful Demos <span>{{ demo_class.demo_successful }} </span></li>
+      <li>Unsuccessful Demos <span>{{ demo_class.demo_not_successful }}</span></li>
+      <li><strong>Earning Demos</strong>{{demo_class.total_demo_earning}}</span></li>
+      {% comment %} <li>Conversions <span>4</span></li> {% endcomment %}
+    </ul>
+    <button class="view-button"><a href="{% url 'demo_class_page' %}">View Demos</a></button>
+  </div>
+  <div class="card">
+    <h3>Classes</h3>
+    <ul class="stat-list">
+      <li>Total Live Class <span>{{ live_class.total_live_classes }}</span></li>
+      <li>Live Class <span>{{ live_class.live_classes_compeleted }}</span></li>
+      <li>Cancelled <span>{{ live_class.live_classes_not_compeleted }}</span></li>
+    </ul>
+    <button class="view-button"><a href="{% url 'live_class_page' %}">View Classes</a></button>
+  </div>
+</div>
+
+<div class="container-grid">
+
+  <div class="card">
+    <h3>My Students Feedback</h3>
+    <p>{{ student_rating_5 }}/5 from {{ student_rating_total }} feedbacks</p>
+    <div class="bar-row"><span>⭐⭐⭐⭐⭐5 star</span><div class="bar"><div class="fill good" style="width:{{rating_5}}%"></div></div><span>{{ student_rating_5 }}</span></div>
+    <div class="bar-row"><span>⭐⭐⭐⭐4 star</span><div class="bar"><div class="fill fair" style="width:{{rating_4}}%"></div></div><span>{{ student_rating_4 }}</span></div>
+  </div>
+</div>
+
+<div class="card badge-container shadow-sm p-4 mb-4">
+  <h4 class="mb-3">🏅 My Badge</h4>
+  <div class="badge-content d-flex align-items-start">
+
+    <!-- Badge Image -->
+    <div class="badge-image me-4">
+       <img src="{{ image }}" alt="" width="100">
+    </div>
+
+    <!-- Badge Text -->
+    <ul class="badge-details list-unstyled">
+        <li>{{ l1 }}</li>
+        <li>{{ l2 }}</li>
+        <li>{{ l3 }}</li>
+    </ul>
+
+  </div>
+</div>
+
+
+<div class="container-grid">
+  <div class="courses-section card">
+    <h2>My Courses</h2>
+    <div class="course-grid">
+      {% for course in courses %}
+      <div class="course-card">
+        <h3 align="left">{{ course.course_name }}</h3>
+        {% comment %} <p><a href="#">Download Curriculum</a></p>
+        <p><a href="#">Demo Curriculum</a></p> {% endcomment %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="resources-section card">
+    <h2>My Resources</h2>
+    <div class="tabs">
+      <span class="tab active">VIDEOS</span>
+    </div>
+    <div class="video-list">
+      {% for video in videos %}
+      <div class="video-item">
+        <video controls>
+          <source src="{{ video.video.url }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <p>{{ video.title}}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

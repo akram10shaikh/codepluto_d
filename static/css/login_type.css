@@ -1,0 +1,130 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F5F9FF;
+    margin: 0;
+    padding: 0;
+}
+
+.con {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 10px;
+    margin-bottom: 30px;
+}
+
+.image-content {
+    width: 50%;
+    padding-left: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: contain;
+}
+
+.container1 {
+    padding: 20px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+.blur-box {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(15px);
+    border-radius: 12px;
+    padding: 40px;
+    color: #333;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.title {
+    color: #555;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h5 {
+    font-size: 15px;
+    color: #1f5ad9;
+    text-align: left;
+    font-weight: bold;
+    margin: 0;
+}
+
+.card-label {
+    font-size: 13px;
+    color: rgb(120, 132, 145);
+    display: block;
+    padding-top: 20px;
+}
+
+.btn-primary {
+    width: 92%;
+    border-radius: 8px;
+    font-weight: bold;
+    background: #3B82F6;
+    border: none;
+    color: white;
+    font-size: 15px;
+    padding: 12px;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+    display: inline-block;
+}
+
+.btn-primary:hover {
+    background-color: #1f5ad9;
+    color: white;
+}
+
+.highlighter {
+    color: #1f5ad9;
+}
+
+@media (max-width: 768px) {
+    .con {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .image-content {
+        width: 100%;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
+    .image-content img {
+        width: 80%;
+        height: auto;
+    }
+
+    .container1 {
+        width: 90%;
+        margin-left: 0;
+    }
+
+    .blur-box {
+        padding: 30px 20px;
+    }
+}

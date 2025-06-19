@@ -1,0 +1,198 @@
+{% extends 'teacher/tbase.html' %}
+{% block 'title' %} Profile {% endblock %}
+{% load static %}
+{% block 'content' %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+    .container {
+        max-width: 850px;
+        margin: 60px auto;
+        background: #fff;
+        border-radius: 16px;
+        padding: 50px 40px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+        position: relative;
+    }
+
+    .profile-header {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .profile-header img {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid #f0f0f0;
+        box-shadow: 0 0 12px rgba(0,0,0,0.05);
+        transition: transform 0.2s;
+    }
+
+    .profile-header img:hover {
+        transform: scale(1.05);
+    }
+
+    .profile-header h2 {
+        margin-top: 15px;
+        font-size: 28px;
+        color: #2b2d42;
+    }
+
+    .profile-header p {
+        color: #8d99ae;
+        font-size: 14px;
+        margin-top: 4px;
+    }
+
+    form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #2b2d42;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    select,
+    input[type="file"] {
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+        background-color: #f8f9fa;
+        transition: border-color 0.2s;
+    }
+
+    input:focus,
+    select:focus {
+        outline: none;
+        border-color: #4CAF50;
+    }
+
+    .form-group.full-width {
+        grid-column: span 2;
+    }
+
+    .password-section {
+        background: #f1f5f9;
+        padding: 20px;
+        border-radius: 10px;
+        grid-column: span 2;
+        margin-top: 10px;
+    }
+
+    .password-section h3 {
+        margin-bottom: 10px;
+        font-size: 18px;
+        color: #2b2d42;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 6px;
+    }
+
+    button {
+        grid-column: span 2;
+        margin-top: 30px;
+        padding: 14px;
+        background: linear-gradient(to right, #4CAF50, #45a049);
+        color: white;
+        border: none;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    button:hover {
+        background: linear-gradient(to right, #43a047, #388e3c);
+    }
+
+    .errorlist {
+        color: red;
+        font-size: 13px;
+        margin-top: 5px;
+    }
+
+    @media (max-width: 768px) {
+        form {
+            grid-template-columns: 1fr;
+        }
+        .form-group.full-width {
+            grid-column: span 1;
+        }
+        button {
+            grid-column: span 1;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="profile-header">
+        <img src="{{ teacher.image.url }}" alt="Teacher Image">
+        <h2>{{ teacher.full_name }}</h2>
+        <p>{{ teacher.email }}</p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% for field in form %}
+            {% if field.name not in "current_password new_password confirm_password" %}
+                <div class="form-group {% if forloop.counter0|divisibleby:2 %}full-width{% endif %}">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% for error in field.errors %}
+                        <div class="errorlist">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        <!-- Password section -->
+        <div class="password-section">
+            <h3>Change Password</h3>
+
+            <div class="form-group full-width">
+                <label for="{{ form.current_password.id_for_label }}">{{ form.current_password.label }}</label>
+                {{ form.current_password }}
+                {% for error in form.current_password.errors %}
+                    <div class="errorlist">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group full-width">
+                <label for="{{ form.new_password.id_for_label }}">{{ form.new_password.label }}</label>
+                {{ form.new_password }}
+                {% for error in form.new_password.errors %}
+                    <div class="errorlist">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group full-width">
+                <label for="{{ form.confirm_password.id_for_label }}">{{ form.confirm_password.label }}</label>
+                {{ form.confirm_password }}
+                {% for error in form.confirm_password.errors %}
+                    <div class="errorlist">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <button type="submit">Update Profile</button>
+    </form>
+</div>
+
+{% endblock %}

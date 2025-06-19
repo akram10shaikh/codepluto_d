@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block 'title'%} Update Meeting{% endblock %}
+{% load static%}
+{% block 'content' %}
+    <style>
+        :root {
+            --base-clr: #F5F9FF;
+            --line-clr: #42434a;
+            --hover-clr: rgb(228, 230, 243);
+            --text-clr: #3B82F6;
+            --accent-clr: #5e63ff;
+            --secondary-text-clr: rgb(0, 0, 0);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--base-clr);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--text-clr);
+            margin-top: 40px;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            margin: 40px auto;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        form p {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: var(--line-clr);
+        }
+
+        input[type="text"],
+        input[type="datetime-local"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-top: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: var(--accent-clr);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--hover-clr);
+            color: var(--text-clr);
+        }
+    </style>
+</head>
+<body>
+
+<h2>Edit Meeting: {{ meeting.title }}</h2>
+<div class="form-container">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Meeting</button>
+    </form>
+</div>
+
+{% endblock %}

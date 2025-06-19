@@ -1,0 +1,175 @@
+{% extends 'teacher/tbase.html' %}
+{% load static %}
+{% block 'title' %} Home {% endblock %}
+{% block 'content' %}
+
+<style>
+
+    .container {
+        margin: 30px auto;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        padding: 30px;
+        overflow-x: auto;
+    }
+
+    h2 {
+        text-align: center;
+        color: #2c3e50;
+        font-size: 26px;
+        margin-bottom: 25px;
+    }
+
+    .search-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+    }
+
+    .search-container input {
+        padding: 10px 14px;
+        font-size: 15px;
+        width: 260px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        transition: 0.3s;
+    }
+
+    .search-container input:focus {
+        outline: none;
+        border-color: #007acc;
+        box-shadow: 0 0 5px rgba(0, 122, 204, 0.3);
+    }
+
+    .scrollable-table {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        min-width: 900px;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 14px 16px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+        font-size: 15px;
+    }
+
+    th {
+        background-color: #007acc;
+        color: white;
+    }
+
+    tbody tr:hover {
+        background-color: #f0f8ff;
+    }
+
+    td a {
+        color: #007acc;
+        text-decoration: none;
+    }
+
+    td a:hover {
+        text-decoration: underline;
+    }
+
+    td {
+        color: #333;
+    }
+
+    .no-data {
+        text-align: center;
+        padding: 25px;
+        font-size: 16px;
+        color: #666;
+    }
+
+    @media screen and (max-width: 768px) {
+        .search-container {
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .search-container input {
+            width: 100%;
+        }
+
+        table {
+            font-size: 14px;
+        }
+    }
+</style>
+
+<div class="container">
+    <h2>Upcoming Classes</h2>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search by Student Name...">
+    </div>
+
+    <div class="scrollable-table">
+        <table id="classesTable">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Meeting Link</th>
+                    <th>Recording</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for meeting in upcomming_classes %}
+                <tr>
+                    <td>{{ meeting.user.get_full_name }}</td>
+                    <td>{{ meeting.title }}</td>
+                    <td>{{ meeting.description }}</td>
+                    <td>{{ meeting.start_time }}</td>
+                    <td>{{ meeting.end_time }}</td>
+                    <td>
+                        {% if meeting.meet_link %}
+                        <a href="{{ meeting.meet_link }}" target="_blank">Join</a>
+                        {% else %}-{% endif %}
+                    </td>
+                    <td>
+                        {% if meeting.recording_link %}
+                        <a href="{{ meeting.recording_link }}" target="_blank">Watch</a>
+                        {% else %}-{% endif %}
+                    </td>
+                    <td>{{ meeting.completed|yesno:"Completed,Upcoming" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="no-data">No upcoming classes.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function filterTable() {
+        const input = document.getElementById("searchInput");
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById("classesTable");
+        const tr = table.getElementsByTagName("tr");
+
+        for (let i = 1; i < tr.length; i++) {
+            const td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                const txtValue = td.textContent || td.innerText;
+                tr[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
+            }
+        }
+    }
+</script>
+
+{% endblock %}

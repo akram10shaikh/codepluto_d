@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% block 'title' %} Certificate {% endblock %}
+{% load static %}
+{% block 'content' %}
+<style>
+    .certificate-container {
+        display: flex;
+        flex-direction: column;
+        background-color: #f5f9ff;
+        padding: 20px;
+    }
+
+    .certificate-header {
+        font-size: 20px;
+        font-weight: bold;
+        padding: 15px 20px;
+        background-color: white;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-radius: 10px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .certificate-card {
+        display: flex;
+        flex-wrap: wrap;
+        background-color: white;
+        margin-bottom: 30px;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+        transition: transform 0.2s ease;
+    }
+
+    .certificate-card:hover {
+        transform: translateY(-2px);
+    }
+
+    .certificate-info, .certificate-preview {
+        flex: 1 1 50%;
+        padding: 30px;
+        box-sizing: border-box;
+    }
+
+    .certificate-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: #fff;
+    }
+
+    .certificate-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1a1a1a;
+        margin-bottom: 15px;
+    }
+
+    .certificate-meta {
+        font-size: 14px;
+        color: #444;
+        line-height: 1.7;
+        margin-bottom: 20px;
+    }
+
+    .certificate-meta p {
+        margin: 6px 0;
+    }
+
+    .certificate-description {
+        font-size: 13.5px;
+        color: #555;
+        line-height: 1.6;
+        margin-top: auto;
+    }
+
+    .certificate-info img {
+        max-width: 220px;
+        margin-top: 20px;
+    }
+
+    .certificate-preview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #f9f9f9;
+        padding: 30px;
+    }
+
+    .certificate-preview img {
+        width: 100%;
+        max-width: 320px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .download-button {
+        display: inline-block;
+        margin-top: 20px;
+        background-color: #5e63ff;
+        color: white;
+        text-decoration: none;
+        padding: 10px 25px;
+        font-size: 14px;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+    }
+
+    .download-button:hover {
+        background-color: #4a4eea;
+    }
+
+    @media (max-width: 768px) {
+        .certificate-card {
+            flex-direction: column;
+        }
+
+        .certificate-info,
+        .certificate-preview {
+            flex: 1 1 100%;
+            padding: 20px;
+        }
+
+        .certificate-info img {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+</style>
+
+<div class="certificate-container">
+    <div class="certificate-header">
+        <img src="{% static 'images/student_dashboard/course-main.png' %}" width="20" height="20" alt="Certificate Icon">
+        Certificate
+    </div>
+
+    {% for certificate in data %}
+    <div class="certificate-card">
+        <div class="certificate-info">
+            <div class="certificate-title">{{ certificate.course_name.course_name }}</div>
+            <div class="certificate-meta">
+                <p><strong>Student:</strong> {{ request.user.get_full_name }}</p>
+                {% comment %} <p><strong>Instructor:</strong> {{ certificate.course_name.instructor_name }}</p> {% endcomment %}
+                <p><strong>Completion Date:</strong> {{ certificate.completion_date|date:"F d, Y" }}</p>
+                <p><strong>Certificate ID:</strong> {{ certificate.certificate_code }}</p>
+            </div>
+
+        </div>
+        <div class="certificate-preview">
+            <img src="{% static 'images/certificate/Certificate.jpg' %}" alt="Certificate">
+            <a href="{{ certificate.certificate_pdf.url }}" class="download-button">Download PDF</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

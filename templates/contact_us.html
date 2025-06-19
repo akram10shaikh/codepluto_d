@@ -1,0 +1,89 @@
+{% extends 'main_base.html' %}
+{% block 'title' %} Contact Us {% endblock %}
+{% load static %}
+{% block 'content' %}
+<style>
+    body {
+        background-color: #F5F9FF;
+        font-family: Arial, sans-serif;
+        color: black;
+    }
+    .container {
+        margin: 0 auto;
+
+        padding: 20px;
+        border-radius: 10px;
+    }
+    h1, h2 {
+        text-align:center;
+        font-size:30px;
+        margin-bottom: 10px;
+        font-weight:bold;
+        padding:20px;
+        margin:10px;
+    }
+
+    .highlight {
+        color: #3B82F6;
+    }
+    p {
+        font-size:15px;
+        line-height: 1.6;
+    }
+    .contact-form {
+
+        margin-top: 20px;
+
+    }
+    input, textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid black;
+        border-radius: 5px;
+    }
+    button {
+        background-color: #0974da;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    button:hover {
+        background-color:rgb(8, 91, 169);
+    }
+</style>
+
+<body>
+<div class="container">
+    <h1>Welcome to <span class="highlight">Code Pluto</span></h1>
+    <p>CodePluto is a dynamic platform where innovation and instruction come together to make coding a lifelong skill accessible to everyone, regardless of age or experience level.</p>
+    <p>From kids learning to code with Scratch, to teenagers building apps, and professionals advancing their careers through Python, machine learning, and AI, CodePluto empowers learners at every stage.</p>
+    <p>Whether you're looking to develop apps, dive into data science, or explore artificial intelligence, CodePluto is your gateway to mastering technology. With expert instructors, engaging content, and a community of like-minded learners, we ensure that coding is not only understandable but also exciting and fun for all generations.</p>
+
+    <h2>Contact Us</h2>
+    <form class="contact-form" action="{% url 'contact_save' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" placeholder="Your Name" required name="name">
+        <input type="email" placeholder="Your Email" required name="email">
+        <input type="text" placeholder="Your WhatsApp Number" required name="phone_number">
+        <textarea placeholder="Your Message" rows="5" required name="message"></textarea>
+        <button type="submit">Send Message</button>
+    </form>
+
+
+    {% if message %}
+    <script>
+        messages = "We will connect you soon. Hava a nice day"
+        window.onload = function() {
+            alert(messages);
+        };
+    </script>
+    {% endif %}
+
+</div>
+
+</body>
+{% endblock %}

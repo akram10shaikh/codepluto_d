@@ -1,0 +1,41 @@
+{% extends 'main_base.html' %}
+{% load static %}
+{% block 'title' %} Login {% endblock%}
+{% block 'content' %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/login_type.css' %}">
+</head>
+<body>
+    <div class="con">
+        <div class="image-content">
+            <img src="{% static 'images/login_type/main.jpeg' %}" alt="Coding Student">
+        </div>
+        <div class="container1 blur-box">
+            <div class="title">
+                Welcome to <span class="highlighter">Code Pluto</span>
+            </div>
+            <div class="row">
+                <div class="col-md-3 mb-3 card-label">
+                    <img src="{% static 'images/login_type/student.png' %}" width="50px" height="50px" alt="Student Icon">
+                </div>
+                <div class="col-md-9 mb-9 card-label">
+                    <h5 style="color:rgb(40, 48, 68)"> Student Program </h5>
+                    <p> Only for registered students to track, manage and attend online classes.</p>
+                    <a class="btn btn-primary" href="{% url 'login_page' %}">Login to student panel</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 mb-3 card-label">
+                    <img src="{% static 'images/login_type/teacher.png' %}" width="50px" height="50px" alt="Teacher Icon">
+                </div>
+                <div class="col-md-9 mb-9 card-label">
+                    <h5 style="color:rgb(40, 48, 68)"> Teacher Program </h5>
+                    <p> This is for the registered teacher to teach, manage and attend online classes.</p>
+                    <a class="btn btn-primary" href="{% url 'teacher_login' %}">Login to teacher panel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+{% endblock %}

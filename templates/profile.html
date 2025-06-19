@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% block 'title' %} Profile {% endblock %}
+{% load static %}
+{% block 'content' %}
+
+<style>
+    body {
+        background-color: #f5f9ff;
+    }
+
+    .first-container {
+        max-width: 900px;
+        margin: 30px auto;
+        background-color: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .form {
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .image-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .image-box img {
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .form-label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #333;
+        font-size: 14px;
+    }
+
+    .form-control {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+        transition: border-color 0.2s ease;
+        background-color: #fdfdfd;
+    }
+
+    .form-control:focus {
+        border-color: #3B82F6;
+        outline: none;
+    }
+
+    .row {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .half-width {
+        width: 48%;
+    }
+
+    .full-width {
+        width: 100%;
+    }
+
+    .button-update-profile {
+        background-color: #3B82F6;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        font-size: 14px;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 20px;
+    }
+
+    .button-update-profile:hover {
+        background-color: #275dba;
+    }
+
+    @media (max-width: 768px) {
+        .half-width {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="first-container">
+    <form method="POST" enctype="multipart/form-data" class="form">
+        {% csrf_token %}
+
+        <div class="image-box">
+            <img src="{{ profile.image.url }}" alt="Profile image" />
+            {{ form.image }}
+        </div>
+
+        <div class="row">
+            <div class="form-group half-width">
+                <label class="form-label">Full Name</label>
+                {{ form.full_name }}
+            </div>
+            <div class="form-group half-width">
+                <label class="form-label">Email</label>
+                {{ form.email }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group half-width">
+                <label class="form-label">Phone</label>
+                {{ form.phone }}
+            </div>
+            <div class="form-group half-width">
+                <label class="form-label">Gender</label>
+                {{ form.gender }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group half-width">
+                <label class="form-label">Father Name</label>
+                {{ form.father_name }}
+            </div>
+            <div class="form-group half-width">
+                <label class="form-label">Mother Name</label>
+                {{ form.mother_name }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group full-width">
+                <label class="form-label">Parents Phone</label>
+                {{ form.parents_phone }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group full-width">
+                <label class="form-label">Address</label>
+                {{ form.address }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group half-width">
+                <label class="form-label">City</label>
+                {{ form.city }}
+            </div>
+            <div class="form-group half-width">
+                <label class="form-label">State</label>
+                {{ form.state }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group full-width">
+                <label class="form-label">Country</label>
+                {{ form.country }}
+            </div>
+        </div>
+
+        <button type="submit" class="button-update-profile">Update Profile</button>
+    </form>
+</div>
+
+{% endblock %}

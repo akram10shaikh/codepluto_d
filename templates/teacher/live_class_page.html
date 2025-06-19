@@ -1,0 +1,197 @@
+{% extends 'teacher/tbase.html' %}
+{% block 'title' %}Live Classes{% endblock %}
+{% load static %}
+{% block 'content' %}
+
+<!-- Custom CSS -->
+<style>
+  .container {
+    margin: 30px auto;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    overflow-x: auto;
+  }
+
+  h2 {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 26px;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+
+  .search-bar-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+
+  #searchInput {
+    width: 280px;
+    padding: 10px 14px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: 0.3s ease;
+  }
+
+  #searchInput:focus {
+    border-color: #007acc;
+    box-shadow: 0 0 5px rgba(0, 122, 204, 0.25);
+    outline: none;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    padding: 15px;
+  }
+
+  table.custom-table {
+    width: 100%;
+    min-width: 1000px;
+    border-collapse: collapse;
+    font-size: 14px;
+    color: #343a40;
+  }
+
+  .custom-table thead {
+    background-color: #007acc;
+    color: white;
+  }
+
+  .custom-table th, .custom-table td {
+    padding: 14px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+  }
+
+  .custom-table tbody tr:hover {
+    background-color: #f1f9ff;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .custom-table a {
+    color: #007acc;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .custom-table a:hover {
+    text-decoration: underline;
+  }
+
+  .badge {
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    display: inline-block;
+  }
+
+  .bg-success {
+    background-color: #28a745 !important;
+    color: #fff;
+  }
+
+  .bg-warning {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+  }
+
+  @media (max-width: 768px) {
+    .search-bar-container {
+      justify-content: center;
+    }
+
+    #searchInput {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    table.custom-table {
+      font-size: 13px;
+    }
+  }
+</style>
+
+<!-- Page Content -->
+<div class="container mt-5">
+  <h2>🎥 All Live Classes</h2>
+
+  <!-- Search bar -->
+  <div class="search-bar-container">
+    <input type="text" id="searchInput" placeholder="Search by student name...">
+  </div>
+
+  <!-- Table -->
+  <div class="table-responsive">
+    <table id="liveClassTable" class="custom-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Student Name</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Join Link</th>
+          <th>Recording</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for m in live_class %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td class="student-name">{{ m.user.get_full_name }}</td>
+          <td>{{ m.title }}</td>
+          <td>{{ m.description }}</td>
+          <td>{{ m.start_time|date:"d M Y, h:i A" }}</td>
+          <td>{{ m.end_time|date:"d M Y, h:i A" }}</td>
+          <td><a href="{{ m.meet_link }}" target="_blank">Join</a></td>
+          <td>
+            {% if m.recording_link %}
+              <a href="{{ m.recording_link }}" target="_blank">View</a>
+            {% else %}
+              <span class="text-muted">N/A</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if m.completed %}
+              <span class="badge bg-success">Completed</span>
+            {% else %}
+              <span class="badge bg-warning">Pending</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="9" class="no-data">No live classes available</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- JavaScript for Real-Time Search -->
+<script>
+  document.getElementById("searchInput").addEventListener("keyup", function () {
+    const input = this.value.toLowerCase();
+    const rows = document.querySelectorAll("#liveClassTable tbody tr");
+
+    rows.forEach(row => {
+      const nameCell = row.querySelector(".student-name");
+      const name = nameCell ? nameCell.textContent.toLowerCase() : "";
+      row.style.display = name.includes(input) ? "" : "none";
+    });
+  });
+</script>
+
+{% endblock %}
