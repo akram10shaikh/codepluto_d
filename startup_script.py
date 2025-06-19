@@ -18,7 +18,7 @@ def run():
 
         print("🔐 Creating superuser if not exists...")
         User = get_user_model()
-        if not User.objects.filter(username='admin').exists():
+        if not User.objects.filter(username='admin12').exists():
             User.objects.create_superuser(
                 username='admin@gmail.com',
                 email='admin@gmail.com',
